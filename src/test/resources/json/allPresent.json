@@ -1,0 +1,12 @@
+{
+	"myStr": "hello",
+	"myInt": 123,
+	"myDbl": 23.45,
+	"myBool": true,
+	"bar": {
+		"myStr": "helloBar",
+		"myInt": 1234,
+		"myDbl": 23.456,
+		"myBool": false
+	}
+}

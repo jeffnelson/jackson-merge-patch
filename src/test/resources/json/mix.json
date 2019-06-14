@@ -1,0 +1,9 @@
+{
+	"myStr": "hello",
+	"myInt": null,
+	"myBool": true,
+	"bar": {
+		"myInt": 1234,
+		"myDbl": null
+	}
+}
