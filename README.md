@@ -23,11 +23,11 @@ then individual getters and setters for fields. When this happens, Jackson is fo
 ctor.
  
 ## Getting Started
-Register the `PatchMergeModule` with your `ObjectMapper`
+Register the `MergePatchModule` with your `ObjectMapper`
  
 ```
 ObjectMapper om = new ObjectMapper();
-om.registerModule(new PatchMergeModule());
+om.registerModule(new MergePatchModule());
 ```
 Or you may use the customer serializer manually on a `PatchField` attribute
 

@@ -61,9 +61,9 @@ public class PatchFieldDTOControllerTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
 
-        // setup the HttpMessage converter to use ObjectMapper with the PatchMergeModule
+        // setup the HttpMessage converter to use ObjectMapper with the MergePatchModule
         ObjectMapper om = new ObjectMapper();
-        om.registerModule(new PatchMergeModule());
+        om.registerModule(new MergePatchModule());
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         converter.setObjectMapper(om);
 

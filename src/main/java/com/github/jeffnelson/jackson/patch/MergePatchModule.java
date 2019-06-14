@@ -11,11 +11,11 @@ import com.github.jeffnelson.jackson.patch.deser.PatchFieldDeserializer;
  * @since 1.0.0
  *
  */
-public class PatchMergeModule extends SimpleModule {
+public class MergePatchModule extends SimpleModule {
 
     private static final long serialVersionUID = 1L;
 
-    public PatchMergeModule() {
+    public MergePatchModule() {
         addDeserializer(IPatchField.class, new PatchFieldDeserializer());
         addDeserializer(PatchField.class, new PatchFieldDeserializer());
     }
