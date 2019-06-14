@@ -17,10 +17,6 @@ public interface IPatchField<T> {
 
     T getValue();
 
-    default boolean isPresent() {
-        return shouldPatch();
-    }
-
     default void patch(Consumer<T> setter) {
         if (shouldPatch()) {
             setter.accept(getValue());
