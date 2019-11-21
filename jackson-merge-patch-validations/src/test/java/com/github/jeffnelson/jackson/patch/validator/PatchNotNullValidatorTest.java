@@ -16,6 +16,7 @@ public class PatchNotNullValidatorTest {
     @Before
     public void setup() {
         validator = new PatchNotNullValidator();
+        validator.initialize(null);
     }
 
     @Test

@@ -29,20 +29,6 @@ allprojects {
         testCompile 'commons-io:commons-io:2.6'
     }
 
-    jacocoTestCoverageVerification {
-        violationRules {
-            rule {
-                element = 'CLASS'
-                includes = [
-                    'com.github.jeffnelson.jackson.patch.deser.PatchFieldDeserializer'
-                ]
-                excludes = []
-
-                limit { minimum = 1.0 }
-            }
-        }
-    }
-
     // always run jacocoTestReport and coverageVerification
     test.finalizedBy(jacocoTestReport)
     jacocoTestReport.finalizedBy(jacocoTestCoverageVerification)
@@ -55,10 +41,25 @@ allprojects {
         }
     }
 
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    artifacts { archives sourcesJar }
 }
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            includes = [
+                'com.github.jeffnelson.jackson.patch.deser.PatchFieldDeserializer'
+            ]
+            excludes = []
+
+            limit { minimum = 1.0 }
+        }
+    }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts { archives sourcesJar }
