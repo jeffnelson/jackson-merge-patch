@@ -1,0 +1,21 @@
+dependencies {
+    compile rootProject
+    
+    compile 'org.apache.commons:commons-lang3:3.5'
+    compile 'javax.validation:validation-api:1.1.0.Final'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            includes = [
+                'com.github.jeffnelson.jackson.patch.validator.PatchNotNullValidator',
+                'com.github.jeffnelson.jackson.patch.validator.PatchStringValidator'
+            ]
+            excludes = []
+
+            limit { minimum = 1.0 }
+        }
+    }
+}

@@ -1,29 +1,46 @@
-buildscript { repositories { mavenCentral() } }
+buildscript { repositories { mavenCentral()
+    } }
 
-repositories { mavenCentral() }
+allprojects {
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
-apply plugin: 'maven'
-apply plugin: 'jacoco'
+    repositories { mavenCentral() }
 
-group = 'com.github.jeffnelson'
-version = currentVersion
-archivesBaseName = project.name
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'idea'
+    apply plugin: 'maven'
+    apply plugin: 'jacoco'
 
-sourceCompatibility = 1.8
+    group = 'com.github.jeffnelson'
+    version = currentVersion
+    archivesBaseName = project.name
 
-dependencies {
-    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.11'
+    sourceCompatibility = 1.8
 
-    compileOnly 'org.projectlombok:lombok:1.16.22'
+    dependencies {
+        compile 'com.fasterxml.jackson.core:jackson-databind:2.8.11'
 
-    testCompileOnly 'org.projectlombok:lombok:1.16.22'
-    testCompile 'org.springframework.boot:spring-boot-starter-test:1.5.4.RELEASE'
-    testCompile 'org.springframework.boot:spring-boot-starter-web:1.5.4.RELEASE'
-    testCompile 'com.google.guava:guava:28.0-jre'
-    testCompile 'commons-io:commons-io:2.6'
+        compileOnly 'org.projectlombok:lombok:1.16.22'
+
+        testCompileOnly 'org.projectlombok:lombok:1.16.22'
+        testCompile 'org.springframework.boot:spring-boot-starter-test:1.5.4.RELEASE'
+        testCompile 'org.springframework.boot:spring-boot-starter-web:1.5.4.RELEASE'
+        testCompile 'com.google.guava:guava:28.0-jre'
+        testCompile 'commons-io:commons-io:2.6'
+    }
+
+    // always run jacocoTestReport and coverageVerification
+    test.finalizedBy(jacocoTestReport)
+    jacocoTestReport.finalizedBy(jacocoTestCoverageVerification)
+
+    jacocoTestReport {
+        reports {
+            xml.enabled false
+            csv.enabled false
+            html.destination "${buildDir}/jacocoHtml"
+        }
+    }
+
 }
 
 jacocoTestCoverageVerification {
@@ -40,23 +57,9 @@ jacocoTestCoverageVerification {
     }
 }
 
-// always run jacocoTestReport and coverageVerification
-test.finalizedBy(jacocoTestReport)
-jacocoTestReport.finalizedBy(jacocoTestCoverageVerification)
-
-jacocoTestReport {
-    reports {
-        xml.enabled false
-        csv.enabled false
-        html.destination "${buildDir}/jacocoHtml"
-    }
-}
-
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
 
 artifacts { archives sourcesJar }
-
-
