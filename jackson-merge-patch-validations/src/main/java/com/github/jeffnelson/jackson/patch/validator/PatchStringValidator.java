@@ -7,14 +7,14 @@ import javax.validation.ConstraintValidatorContext;
 import org.apache.commons.lang3.StringUtils;
 
 import com.github.jeffnelson.jackson.patch.PatchField;
-import com.github.jeffnelson.jackson.patch.validator.constraints.PatchStringValid;
+import com.github.jeffnelson.jackson.patch.validator.constraints.PatchStringRequired;
 
-public class PatchStringValidator implements ConstraintValidator<PatchStringValid,PatchField<String>> {
+public class PatchStringValidator implements ConstraintValidator<PatchStringRequired,PatchField<String>> {
 
     boolean allowNull, allowEmpty, allowBlank;
 
     @Override
-    public void initialize(PatchStringValid anno) {
+    public void initialize(PatchStringRequired anno) {
         this.allowNull = anno.allowNull();
         this.allowEmpty = anno.allowEmpty();
         this.allowBlank = anno.allowBlank();
