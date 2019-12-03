@@ -110,12 +110,13 @@ public class PatchNumberValidationsControllerTest {
                 .content(content)
                 .contentType(PatchMediaType.APPLICATION_MERGE_PATCH_JSON))
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("[0].field", is("myDbl")))
-                .andExpect(jsonPath("[0].error", is("must be less than or equal to 50")))
-                .andExpect(jsonPath("[1].field", is("myLong")))
-                .andExpect(jsonPath("[1].error", is("Required")))
-                .andExpect(jsonPath("[2].field", is("myInt")))
-                .andExpect(jsonPath("[2].error", is("must be greater than or equal to 12")))
+
+                .andExpect(jsonPath("[*].field", is("myDbl")))
+                .andExpect(jsonPath("[*].error", is("must be less than or equal to 50")))
+                .andExpect(jsonPath("[*].field", is("myLong")))
+                .andExpect(jsonPath("[*].error", is("Required")))
+                .andExpect(jsonPath("[*].field", is("myInt")))
+                .andExpect(jsonPath("[*].error", is("must be greater than or equal to 12")))
                 .andReturn();
 
         assertNull(controller.foo);
@@ -167,26 +168,9 @@ public class PatchNumberValidationsControllerTest {
 
         final MessageSource messageSource;
 
-        Exception caught;
-
-        // @ExceptionHandler({Exception.class})
-        // public ResponseEntity<Object> handleUnknownException(Exception ex, WebRequest request) throws Exception {
-        // caught = ex;
-        // return new ResponseEntity<>(String.format("unhandled exception: %s", ex.getMessage()),
-        // HttpStatus.BAD_REQUEST);
-        // }
-
-        @Override
-        protected ResponseEntity<Object> handleExceptionInternal(
-                Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
-            caught = ex;
-            return super.handleExceptionInternal(ex, body, headers, status, request);
-        }
-
         @Override
         protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                 HttpHeaders headers, HttpStatus status, WebRequest request) {
-            caught = ex;
             List<ErrorDTO> errors = ex.getBindingResult().getFieldErrors().stream()
                     .map(fieldError -> new ErrorDTO(fieldError.getField(), messageSource.getMessage(fieldError, LocaleContextHolder.getLocale())))
                     .collect(Collectors.toList());
