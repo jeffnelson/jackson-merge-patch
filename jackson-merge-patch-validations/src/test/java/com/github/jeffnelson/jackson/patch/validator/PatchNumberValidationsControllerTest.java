@@ -1,7 +1,7 @@
 
 package com.github.jeffnelson.jackson.patch.validator;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -110,13 +110,9 @@ public class PatchNumberValidationsControllerTest {
                 .content(content)
                 .contentType(PatchMediaType.APPLICATION_MERGE_PATCH_JSON))
                 .andExpect(status().is4xxClientError())
-
-                .andExpect(jsonPath("[*].field", is("myDbl")))
-                .andExpect(jsonPath("[*].error", is("must be less than or equal to 50")))
-                .andExpect(jsonPath("[*].field", is("myLong")))
-                .andExpect(jsonPath("[*].error", is("Required")))
-                .andExpect(jsonPath("[*].field", is("myInt")))
-                .andExpect(jsonPath("[*].error", is("must be greater than or equal to 12")))
+                .andExpect(jsonPath("$.[?(@.field == 'myDbl')].error", hasItem("must be less than or equal to 50")))
+                .andExpect(jsonPath("$.[?(@.field == 'myLong')].error", hasItem("Required")))
+                .andExpect(jsonPath("$.[?(@.field == 'myInt')].error", hasItem("must be greater than or equal to 12")))
                 .andReturn();
 
         assertNull(controller.foo);
